@@ -6,22 +6,22 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-
+import '../index.css'
 function Navbar1() {
   return (
    <>
-    {[false, 'sm', 'md', 'lg', 'xl', 'xxl'].map((expand) => (
-        <Navbar key={expand} bg="light" expand={expand} className="mb-3">
+    
+        <Navbar  expand={false} className="mb-3 nav1">
           <Container fluid>
-            <Navbar.Brand href="#">Navbar Offcanvas</Navbar.Brand>
-            <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
+            <Navbar.Brand href="#"></Navbar.Brand>
+            <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${false}`} />
             <Navbar.Offcanvas
-              id={`offcanvasNavbar-expand-${expand}`}
-              aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
+              id={`offcanvasNavbar-expand-${false}`}
+              aria-labelledby={`offcanvasNavbarLabel-expand-${false}`}
               placement="end"
             >
               <Offcanvas.Header closeButton>
-                <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
+                <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${false}`}>
                   Offcanvas
                 </Offcanvas.Title>
               </Offcanvas.Header>
@@ -31,7 +31,7 @@ function Navbar1() {
                   <Nav.Link href="#action2">Link</Nav.Link>
                   <NavDropdown
                     title="Dropdown"
-                    id={`offcanvasNavbarDropdown-expand-${expand}`}
+                    id={`offcanvasNavbarDropdown-expand-${false}`}
                   >
                     <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
                     <NavDropdown.Item href="#action4">
@@ -56,7 +56,7 @@ function Navbar1() {
             </Navbar.Offcanvas>
           </Container>
         </Navbar>
-      ))}
+      
     </>
   )
 }

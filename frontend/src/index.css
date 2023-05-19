@@ -53,7 +53,11 @@ header .container{
   width: 30vw;
   background-color: #e7195a;
 }
-
+.workout-form{
+  max-width: min-content;
+  display: flex;
+  flex-direction: column;
+}
 .nav1{
   display: none !important;
 }

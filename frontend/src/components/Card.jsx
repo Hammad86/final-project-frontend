@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import {FaDumbbell} from 'react-icons/fa';
 import { IconContext } from "react-icons";
-function Cards() {
+function Cards({name,description,duration,date}) {
     return (
         <Card style={{ width: '18rem' , marginBottom:'20px'}}>
             
@@ -14,9 +14,16 @@ function Cards() {
             </div>
           </IconContext.Provider>
             
-                <Card.Title>Special title treatment</Card.Title>
+                <Card.Title>{name}</Card.Title>
+                <Card.Text as="h6">
+                    {description}
+                </Card.Text>
                 <Card.Text>
-                    With supporting text below as a natural lead-in to additional content.
+                    {duration}
+                </Card.Text>
+                
+                <Card.Text>
+                    {date}
                 </Card.Text>
                 <div className='d-flex justify-content-between  ' style={{ width: '9rem' }}>
                 <Button className='nav-btn'>Edit</Button>

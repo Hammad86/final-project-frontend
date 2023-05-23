@@ -61,3 +61,26 @@ header .container{
 .nav1{
   display: none !important;
 }
+
+div.error{
+  padding: 10px;
+  background: #ffefef;
+  border: 1px solid var(--error);
+  color: var(--error);
+  border-radius: 4px;
+  margin: 20px 0;
+}
+
+input.error{
+  border: 1px solid var(--error) !important;
+}
+
+/* Small devices (landscape phones, less than 768px) */
+@media (max-width: 767.98px) { 
+  .hide-form{
+  display: none !important;
+  }
+  .nav1{
+    display: flex !important;
+  }
+ }

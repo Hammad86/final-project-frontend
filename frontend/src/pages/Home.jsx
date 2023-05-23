@@ -3,12 +3,14 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { useEffect } from 'react';
-import { useState } from 'react'
-import Cards from '../components/Card';
+
+import Card from '../components/Card';
 import WorkoutForm from '../components/WorkoutForm';
+import { useWorkoutsContext } from '../hooks/useWorkoutsContext';
 
 function Home() {
-  const [workouts, setWorkouts] = useState([]);
+  const { workouts, dispatch } = useWorkoutsContext();
+
   useEffect(() => {
     const fetchWorkouts = async () => {
       const response = await fetch('http://localhost:4000/api/workout/')
@@ -16,40 +18,33 @@ function Home() {
       const json = await response.json()
       
       if (response.ok) {
-        setWorkouts(json)
+       dispatch({
+        type: 'SET_WORKOUTS',
+        payload: json
+       })
       }
     }
     fetchWorkouts()
     
   }, [])
-  console.log(workouts);
+  
   return (
-    <>
-
       <Container fluid="xl">
-
-        <Row>
+         <Row>
           <Col lg={10} md={8}>
             <Row className="justify-content-md-center">
-              
-              {workouts.map((workout,index)=>
-              <Col md="auto" key={index}>
-               <Cards  name={workout.name} description={workout.description} duration={workout.duration} date={workout.date}/>
-               </Col>
+              {workouts.map((workout) =>
+                <Col md="auto" key={workout._id }>
+                  <Card workout={workout} />
+                </Col>
               )}
-                
-              
-              
             </Row>
-            
           </Col>
           <Col lg={2} md={4}>
-                <WorkoutForm/>
+            <WorkoutForm/>
           </Col>
-
         </Row>
       </Container>
-    </>
   )
 }
 

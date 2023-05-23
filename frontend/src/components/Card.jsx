@@ -1,10 +1,39 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import EditForm from './EditForm';
 import {FaDumbbell} from 'react-icons/fa';
 import { IconContext } from "react-icons";
-function Cards({name,description,duration,date}) {
+import { useWorkoutsContext } from '../hooks/useWorkoutsContext';
+
+function Cards({ workout }) {
+    const {dispatch} = useWorkoutsContext();
+    const [isModal, setIsModel] = useState(false)
+    
+    const editHandle = () =>{
+        setIsModel(!isModal)
+        // return(
+        //     <EditForm/>
+        // )
+    }
+    
+    const handleClick = async ()=>{
+       const response = await fetch(`http://localhost:4000/api/workout/${workout._id}`,{
+        method:'DELETE'
+       })
+    const json = await response.json();
+    
+    if(response.ok){
+        dispatch({
+            type:'DELETE_WORKOUT',
+            payload: json
+        })
+    }
+    }
+    
     return (
+        <>
+        
         <Card style={{ width: '18rem' , marginBottom:'20px'}}>
             
             <Card.Body>
@@ -14,24 +43,28 @@ function Cards({name,description,duration,date}) {
             </div>
           </IconContext.Provider>
             
-                <Card.Title>{name}</Card.Title>
+                <Card.Title>{workout.name}</Card.Title>
                 <Card.Text as="h6">
-                    {description}
+                    {workout.description}
                 </Card.Text>
                 <Card.Text>
-                    {duration}
+                    {workout.type}
                 </Card.Text>
-                
                 <Card.Text>
-                    {date}
+                    {workout.duration}
+                </Card.Text>     
+                <Card.Text>
+                    {workout.date}
                 </Card.Text>
                 <div className='d-flex justify-content-between  ' style={{ width: '9rem' }}>
-                <Button className='nav-btn'>Edit</Button>
-                <Button className='nav-btn'>Delete</Button>
+                <Button onClick={editHandle} className='nav-btn'>Edit</Button>
+                <Button onClick={handleClick} className='nav-btn'>Delete</Button>
                 </div>
                 
             </Card.Body>
         </Card>
+        {isModal && <EditForm workout={workout}/>}
+        </>
     )
 }
 

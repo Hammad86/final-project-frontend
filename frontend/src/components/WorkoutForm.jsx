@@ -1,16 +1,20 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button';
 import { useState } from 'react'
-
+import { useWorkoutsContext } from '../hooks/useWorkoutsContext';
+import '../index.css'
 
 function WorkoutForm() {
-    const [name, setName] = useState('');
-    const [description,setDescription] = useState('');
-    const [type, setType] = useState('');
-    const [duration, setDuration] = useState('');
-    const [date, setDate] = useState('');
-    const [error,setError] = useState(null)
-
+  const {dispatch} = useWorkoutsContext();
+    
+  const [name, setName] = useState('');
+  const [type, setType] = useState('');
+  const [duration, setDuration] = useState('');
+  const [date, setDate] = useState('');
+  const [error,setError] = useState(null)
+  const [emptyFields , setEmptyFields] = useState([])
+  const [description,setDescription] = useState('');
+  
     const handleSubmit = async (e) =>{
         e.preventDefault()
         console.log({name,description,type,duration,date});
@@ -29,6 +33,7 @@ function WorkoutForm() {
 
           if(!response.ok){
             setError(json.error)
+            setEmptyFields(json.emptyFields)
           }
           if(response.ok){
             setDate('')
@@ -37,6 +42,11 @@ function WorkoutForm() {
             setName('')
             setType('')
             setError(null)
+            setEmptyFields([])
+            dispatch({
+              type:'CREATE_WORKOUT',
+              payload: json
+            })
             console.log('data added successfully',json);
           }
 
@@ -47,17 +57,17 @@ function WorkoutForm() {
     }
     
   return (
-    <form className='workout-form'>
+    <form className='workout-form hide-form'>
         <h5>Add New Activity:</h5>
         <label htmlFor="name">Name</label>
-        <input id='name' type="text" onChange={(val)=>setName(val.target.value) } value={name} 
+        <input id='name' type="text" onChange={(val)=>setName(val.target.value) } value={name} className={emptyFields.includes('name') ? 'error': ''}
         />
         <label htmlFor="Description">Description</label>
-        <input id='Description' type="text" onChange={(val)=>setDescription(val.target.value) } value={description}
+        <input id='Description' type="text" onChange={(val)=>setDescription(val.target.value) } value={description} className={emptyFields.includes('description') ? 'error': ''}
         />
         <label htmlFor="type">Select Exercise Type:</label>
         
-      <select id="type" onChange={(val)=>setType(val.target.value)} value={type}>
+      <select id="type" onChange={(val)=>setType(val.target.value)} value={type} className={emptyFields.includes('type') ? 'error': ''}>
         <option value="run">Run</option>
         <option value="bicycle">Bicycle</option>
         <option value="swim">Swim</option>
@@ -67,13 +77,13 @@ function WorkoutForm() {
       </select>
       
       <label htmlFor="duration">Duration</label>
-        <input id='duration' type="text" onChange={(val)=>setDuration(val.target.value) } value={duration}
+        <input id='duration' type="text" onChange={(val)=>setDuration(val.target.value) } value={duration}  className={emptyFields.includes('duration') ? 'error': ''}
         />
          <label htmlFor="date">Date</label>
-        <input id='date' type="date" onChange={(val)=>setDate(val.target.value) } value={date}
+        <input id='date' type="date" onChange={(val)=>setDate(val.target.value) } value={date} className={emptyFields.includes('date') ? 'error': ''}
         />
         <Button onClick={ handleSubmit} className='nav-btn mt-2'>Add</Button>
-        {error && <p text='dark'>{error}</p>}
+        {error && <div className='error'>{error}</div>}
     </form>
   )
 }

@@ -28,6 +28,9 @@ header .container{
   justify-content: space-between;
 }
 
+p > span{
+  color: #3665C5;
+}
 .pages{
   max-width: 96vw;
   padding: 20px;
@@ -75,6 +78,20 @@ input.error{
   border: 1px solid var(--error) !important;
 }
 
+.signup-form{
+  max-width: 500px;
+}
+.input-group, .form-control, .input-group-text{
+  border: 1px solid #fff !important;
+  outline: none !important;
+  
+}
+.input-group :focus{
+  box-shadow: none !important;
+  outline: none !important;
+  border: none !important;
+  /* background-color: #fff !important; */
+}
 /* Small devices (landscape phones, less than 768px) */
 @media (max-width: 767.98px) { 
   .hide-form{

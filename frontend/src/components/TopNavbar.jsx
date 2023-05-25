@@ -35,7 +35,7 @@ function TopNavbar() {
         )}
 
         {!user && (
-          <div className=''>
+          <div className='btn-div'>
             <Link to='/login'>
           <Button  className='nav-btn mx-1'>Login</Button>
           </Link>

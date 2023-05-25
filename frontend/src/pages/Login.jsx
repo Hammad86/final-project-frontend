@@ -4,11 +4,11 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import InputGroup from 'react-bootstrap/InputGroup'
 import { BiEnvelope } from 'react-icons/bi'
-import {BsPhone} from 'react-icons/bs' 
 import {FiLock} from 'react-icons/fi'
 import { IconContext } from "react-icons"
 import Button from 'react-bootstrap/Button';
 import { useLogin } from '../hooks/useLogin';
+import {Link} from 'react-router-dom';
 
 function Login() {
 
@@ -79,7 +79,7 @@ function Login() {
                 <Button disabled={isLoading} type='submit' className='nav-btn'>Login</Button>
                 </Row>
                 <Row className='mb-3'>
-                    <p className='text-secondary text-center'> <span>Login</span> Already have an account </p>
+                    <p className='text-secondary text-center'>Don,t have an account?<span><Link to='/signup'>SignUp</Link></span> </p>
                 </Row>
             </Form>
             {error && <div className='error'>{error}</div>}

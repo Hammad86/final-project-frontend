@@ -10,8 +10,10 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import { useState } from 'react'
 import { useWorkoutsContext } from '../hooks/useWorkoutsContext';
 import '../index.css'
+import { useAuthContext } from '../hooks/useAuthContext';
 function Navbar1() {
   const { dispatch } = useWorkoutsContext();
+  const {user} = useAuthContext();
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [type, setType] = useState('');
@@ -21,14 +23,19 @@ function Navbar1() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log({ name, description, type, duration, date });
+    if(!user){
+      setError('You must be logged in')
+      return  
+    }
+    // console.log({ name, description, type, duration, date });
     try {
       const workout = { name, description, type, duration, date }
 
       const response = await fetch('http://localhost:4000/api/workout', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.token}`
         },
         body: JSON.stringify(workout),
 
@@ -76,21 +83,7 @@ function Navbar1() {
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Nav className="justify-content-end flex-grow-1 pe-3">
-                {/* <Nav.Link href="#action1">Home</Nav.Link>
-                  <Nav.Link href="#action2">Link</Nav.Link>
-                  <NavDropdown
-                    title="Dropdown"
-                    id={`offcanvasNavbarDropdown-expand-${false}`}
-                  >
-                    <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-                    <NavDropdown.Item href="#action4">
-                      Another action
-                    </NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item href="#action5">
-                      Something else here
-                    </NavDropdown.Item>
-                  </NavDropdown> */}
+                
               </Nav>
               <form className='workout-form mx-auto'>
                 <h5>Add New Activity:</h5>

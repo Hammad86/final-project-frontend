@@ -7,13 +7,21 @@ import { useEffect } from 'react';
 import Card from '../components/Card';
 import WorkoutForm from '../components/WorkoutForm';
 import { useWorkoutsContext } from '../hooks/useWorkoutsContext';
+import { useAuthContext } from '../hooks/useAuthContext';
+import Navbar1 from '../components/Navbar';
+
 
 function Home() {
   const { workouts, dispatch } = useWorkoutsContext();
+  const {user} = useAuthContext();
 
   useEffect(() => {
     const fetchWorkouts = async () => {
-      const response = await fetch('http://localhost:4000/api/workout/')
+      const response = await fetch('http://localhost:4000/api/workout/',{
+        headers: {
+          'Authorization': `Bearer ${user.token}`
+        }
+      })
       
       const json = await response.json()
       
@@ -24,14 +32,18 @@ function Home() {
        })
       }
     }
-    fetchWorkouts()
+    if(user){
+      fetchWorkouts()
+    }
     
-  }, [])
+    
+  }, [user])
   
   return (
-      <Container fluid="xl">
+      <Container fluid>
          <Row>
-          <Col lg={10} md={8}>
+          <Col lg={9} md={8}>
+          <Navbar1/>
             <Row className="justify-content-md-center">
               {workouts.map((workout) =>
                 <Col md="auto" key={workout._id }>
@@ -40,7 +52,7 @@ function Home() {
               )}
             </Row>
           </Col>
-          <Col lg={2} md={4}>
+          <Col lg={3} md={4}>
             <WorkoutForm/>
           </Col>
         </Row>

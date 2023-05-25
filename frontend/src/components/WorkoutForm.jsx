@@ -3,12 +3,15 @@ import Button from 'react-bootstrap/Button';
 import { useState } from 'react'
 import { useWorkoutsContext } from '../hooks/useWorkoutsContext';
 import '../index.css'
+import { useAuthContext } from '../hooks/useAuthContext';
 
 function WorkoutForm() {
+
   const {dispatch} = useWorkoutsContext();
+  const {user} = useAuthContext();
     
   const [name, setName] = useState('');
-  const [type, setType] = useState('');
+  const [type, setType] = useState('run');
   const [duration, setDuration] = useState('');
   const [date, setDate] = useState('');
   const [error,setError] = useState(null)
@@ -17,6 +20,12 @@ function WorkoutForm() {
   
     const handleSubmit = async (e) =>{
         e.preventDefault()
+
+        if(!user){
+          setError('You must be logged in')
+          return  
+        }
+
         console.log({name,description,type,duration,date});
         try {
           const workout = {name,description,type,duration,date}
@@ -24,7 +33,8 @@ function WorkoutForm() {
         const response = await fetch('http://localhost:4000/api/workout',{
           method: 'POST',
           headers:{
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${user.token}`
           },
           body: JSON.stringify(workout),
           
@@ -60,7 +70,7 @@ function WorkoutForm() {
     <form className='workout-form hide-form'>
         <h5>Add New Activity:</h5>
         <label htmlFor="name">Name</label>
-        <input id='name' type="text" onChange={(val)=>setName(val.target.value) } value={name} className={emptyFields.includes('name') ? 'error': ''}
+        <input id='name' type="text" onChange={(val)=>setName(val.target.value) } value={name} className={emptyFields.includes('name') ? 'error': ''} required="required"
         />
         <label htmlFor="Description">Description</label>
         <input id='Description' type="text" onChange={(val)=>setDescription(val.target.value) } value={description} className={emptyFields.includes('description') ? 'error': ''}

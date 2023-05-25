@@ -33,7 +33,7 @@ export const workoutsReducer = (state, action)=>{
                 ...state,
                 workouts: state.workouts.map((work)=> work._id === action.payload._id ?  action.payload : work)
 
-                // workouts: [...state.workouts.filter((work)=> work._id !== action.payload._id), action.payload]
+                
             }
         default:
             return state

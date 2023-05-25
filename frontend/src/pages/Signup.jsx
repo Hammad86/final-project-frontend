@@ -9,6 +9,8 @@ import {FiLock} from 'react-icons/fi'
 import { IconContext } from "react-icons"
 import Button from 'react-bootstrap/Button';
 import useSignUp from '../hooks/useSignUp';
+import {Link} from 'react-router-dom';
+
 function Signup() {
     
     const {signup,error,isLoading} = useSignUp();
@@ -125,7 +127,7 @@ function Signup() {
                 <Button disabled={isLoading} type='submit' className='nav-btn'>Signup</Button>
                 </Row>
                 <Row className='mb-3'>
-                    <p className='text-secondary text-center'> <span>Signup</span> Already have an account </p>
+                    <p className='text-secondary text-center'>Already have an account <span><Link to='/login'>Login</Link></span></p>
                 </Row>
             </Form>
             {error && <div className='error'>{error}</div>}

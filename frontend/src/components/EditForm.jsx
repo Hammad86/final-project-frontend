@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 import { useWorkoutsContext } from '../hooks/useWorkoutsContext';
 import '../index.css'
@@ -9,6 +10,7 @@ function EditForm({ workout }) {
 const  { name, description, type, duration, date } = workout
 
 const {workouts,dispatch} = useWorkoutsContext();
+const {user} = useAuthContext();
   const [show, setShow] = useState(true);
 
   const handleClose = () => setShow(false);
@@ -32,7 +34,8 @@ const {workouts,dispatch} = useWorkoutsContext();
         const response = await fetch(`http://localhost:4000/api/workout/${workout._id}`,{
         method:'PUT',
         headers:{
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${user.token}`
           },
           body: JSON.stringify(updatedWorkout),
          

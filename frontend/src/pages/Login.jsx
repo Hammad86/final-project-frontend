@@ -9,10 +9,30 @@ import { IconContext } from "react-icons"
 import Button from 'react-bootstrap/Button';
 import { useLogin } from '../hooks/useLogin';
 import {Link} from 'react-router-dom';
+import {  toast } from 'react-toastify';
 
 function Login() {
-
+   
     const {login,error,isLoading} = useLogin();
+
+    const [inputValue, setInputValue] = useState('');
+
+    const handleChange = (e) => {
+      const { value } = e.target;
+  
+      // Check if the input value contains spaces
+      const hasSpaces = /\s/.test(value);
+  
+      // If spaces are found, prevent updating the input state
+      if (hasSpaces) {
+        return;
+      }
+  
+      // Update the input state if no spaces are found
+      setInputValue(value);
+    };
+    console.log(inputValue);
+  
 
     const [ formData , setFormData ] = useState({ 
         
@@ -22,9 +42,12 @@ function Login() {
     })
     
     const handleSubmit = async(e) =>{
+        
         e.preventDefault()
         
         await login(formData.email, formData.password);
+
+    
 
     }
 
@@ -47,10 +70,13 @@ function Login() {
                                 </IconContext.Provider>
                             </InputGroup.Text>
                             <Form.Control id="email" type='email' placeholder="your email"
-                            value={formData.email}
-                            onChange={(val)=>{setFormData({...formData,email: val.target.value})}}
+                            // value={formData.email}
+                            value={inputValue} onChange={handleChange}
+                            // onChange={(val)=>{setFormData({...formData,email: val.target.value})}}
                             />
+                            {/* {errorMessage && <p>{errorMessage}</p>} */}
                         </InputGroup>
+                        {/* {errorMessage && <div className='error'>{errorMessage}</div>} */}
                     </Col>
                 </Row>
                 

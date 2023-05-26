@@ -117,6 +117,10 @@ input.error{
   margin-top: 100px;
   max-width: 600px;
 }
+
+.error-page img{
+  width: 40vw !important;
+}
 /* Small devices (landscape phones, less than 768px) */
 @media (max-width: 767.98px) { 
   .hide-form{

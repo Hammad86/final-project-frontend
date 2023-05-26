@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useWorkoutsContext } from '../hooks/useWorkoutsContext';
 import '../index.css'
 import { useAuthContext } from '../hooks/useAuthContext';
+import {  toast } from 'react-toastify';
 
 function WorkoutForm() {
 
@@ -17,6 +18,17 @@ function WorkoutForm() {
   const [error,setError] = useState(null)
   const [emptyFields , setEmptyFields] = useState([])
   const [description,setDescription] = useState('');
+
+  const notify = () => toast.success('Activity added successfully!', {
+    position: "bottom-left",
+    autoClose: 2500,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    });
   
     const handleSubmit = async (e) =>{
         e.preventDefault()
@@ -46,6 +58,7 @@ function WorkoutForm() {
             setEmptyFields(json.emptyFields)
           }
           if(response.ok){
+            notify()
             setDate('')
             setDescription('')
             setDuration('')

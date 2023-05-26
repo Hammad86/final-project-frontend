@@ -1,10 +1,22 @@
 import { useState } from 'react'
+import {  toast } from 'react-toastify';
 import { useAuthContext } from './useAuthContext'
 
 export const useLogin = () => {
   const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(null)
   const { dispatch } = useAuthContext()
+
+  const notify = () => toast.success(' Login successfully!', {
+    position: "bottom-left",
+    autoClose: 2500,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    });
 
   const login = async (email, password) => {
     setIsLoading(true)
@@ -22,6 +34,7 @@ export const useLogin = () => {
       setError(json.error)
     }
     if (response.ok) {
+      notify()
       // save the user to local storage
       localStorage.setItem('user', JSON.stringify(json))
 

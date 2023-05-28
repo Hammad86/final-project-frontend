@@ -10,6 +10,7 @@ import { IconContext } from "react-icons"
 import Button from 'react-bootstrap/Button';
 import useSignUp from '../hooks/useSignUp';
 import {Link} from 'react-router-dom';
+import {  toast } from 'react-toastify';
 
 function Signup() {
     
@@ -22,6 +23,92 @@ function Signup() {
         password:'',
         phone:''
     })
+    const notify = () => toast.success('Activity added successfully!', {
+        position: "bottom-left",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+
+    const [inputValue, setInputValue] = useState('');
+
+
+    // Handle the onChnage state of first name
+    const handleChangeFname = (e) => {
+      const { value } = e.target;
+  
+      // Check if the input value contains spaces
+        const hasSpaces = /\s/.test(value);
+        const hasNumbers = /\d/.test(value);
+  
+      // If spaces are found, prevent updating the input state
+      if (hasSpaces || hasNumbers) {
+        return;
+      }
+  
+      // Update the input state if no spaces are found
+      setFormData({...formData,fname:value})
+      
+    };
+    console.log(formData);
+
+    // Handle the onChnage state of last name
+    const handleChangeLname = (e) => {
+        const { value } = e.target;
+    
+        // Check if the input value contains spaces
+          const hasSpaces = /\s/.test(value);
+          const hasNumbers = /\d/.test(value);
+    
+        // If spaces are found, prevent updating the input state
+        if (hasSpaces || hasNumbers) {
+          return;
+        }
+    
+        // Update the input state if no spaces are found
+        setFormData({...formData,lname:value})
+        
+      };
+
+      // Handle the onChnage state of EMAIL
+    const handleChangeEmail = (e) => {
+        const { value } = e.target;
+    
+        // Check if the input value contains spaces
+          const hasSpaces = /\s/.test(value);
+        //   const hasNumbers = /\d/.test(value);
+    
+        // If spaces are found, prevent updating the input state
+        if (hasSpaces ) {
+          return;
+        }
+    
+        // Update the input state if no spaces are found
+        setFormData({...formData,email:value})
+        
+      };
+
+      // Handle the onChnage state of EMAIL
+    const handleChangePhone = (e) => {
+        const { value } = e.target;
+    
+        // Check if the input value contains spaces
+          const hasSpaces = /[a-zA-Z!@#$%^&*(),.?":{}|<>]/.test(value);
+        //   const hasNumbers = /\d/.test(value);
+    
+        // If spaces are found, prevent updating the input state
+        if (hasSpaces ) {
+          return;
+        }
+    
+        // Update the input state if no spaces are found
+        setFormData({...formData,phone:value})
+        
+      };
     
     const handleSubmit = async(e) =>{
         e.preventDefault()
@@ -29,13 +116,13 @@ function Signup() {
 
         await signup(formData.email,formData.password,formData.fname,formData.lname,formData.phone)
 
-        setFormData({
-            fname:'',
-            lname:'',
-            email:'',
-            password:'',
-            phone:''
-                })
+        // setFormData({
+        //     fname:'',
+        //     lname:'',
+        //     email:'',
+        //     password:'',
+        //     phone:''
+        //         })
 
     }
  
@@ -50,7 +137,8 @@ function Signup() {
                         <InputGroup>
                             <Form.Control id="fname" type="text" placeholder="your first name"
                             value={formData.fname}
-                            onChange={(val)=>{setFormData({...formData,fname: val.target.value})}}
+                             onChange={handleChangeFname}
+                            // onChange={(val)=>{setFormData({...formData,fname: val.target.value})}}
                              /> 
                         </InputGroup>
                     </Form.Group>
@@ -60,7 +148,8 @@ function Signup() {
                         <InputGroup>
                             <Form.Control id="lname" type="text" placeholder="your last name" 
                             value={formData.lname}
-                            onChange={(val)=>{setFormData({...formData,lname: val.target.value})}}
+                            onChange={handleChangeLname}
+                            // onChange={(val)=>{setFormData({...formData,lname: val.target.value})}}
                             />
                         </InputGroup>
                     </Form.Group>
@@ -79,7 +168,8 @@ function Signup() {
                             </InputGroup.Text>
                             <Form.Control id="email" type='email' placeholder="your email" 
                             value={formData.email}
-                            onChange={(val)=>{setFormData({...formData,email: val.target.value})}}
+                            onChange={handleChangeEmail}
+                            // onChange={(val)=>{setFormData({...formData,email: val.target.value})}}
                             />
                         </InputGroup>
                     </Col>
@@ -95,9 +185,11 @@ function Signup() {
                                     </div>
                                 </IconContext.Provider>
                             </InputGroup.Text>
-                            <Form.Control type="number" id="phone" placeholder="your phone number" 
+                            <Form.Control type="tel"
+                            maxLength="11" minLength="10" id="phone" placeholder="your phone number" 
                             value={formData.phone}
-                            onChange={(val)=>{setFormData({...formData,phone: val.target.value})}}
+                            onChange={handleChangePhone}
+                            // onChange={(val)=>{setFormData({...formData,phone: val.target.value})}}
                             />
                         </InputGroup>
                     </Col>
@@ -113,7 +205,7 @@ function Signup() {
                                     </div>
                                 </IconContext.Provider>
                             </InputGroup.Text>
-                            <Form.Control type="password" id="password" placeholder="your password"
+                            <Form.Control type="password" id="password" placeholder="your password" minLength="7"
                             value={formData.password}
                             onChange={(val)=>{setFormData({...formData,password: val.target.value})}}
                             />

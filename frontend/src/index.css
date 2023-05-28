@@ -73,6 +73,7 @@ p > span, h1 > span{
   background-color: #e7195a;
 }
 .workout-form{
+  position: fixed;
   max-width: min-content;
   display: flex;
   flex-direction: column;

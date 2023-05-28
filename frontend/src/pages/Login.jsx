@@ -29,6 +29,7 @@ function Login() {
       }
   
       // Update the input state if no spaces are found
+      setFormData({...formData,email:value})
       setInputValue(value);
     };
     console.log(inputValue);
@@ -69,7 +70,7 @@ function Login() {
                                     </div>
                                 </IconContext.Provider>
                             </InputGroup.Text>
-                            <Form.Control id="email" type='email' placeholder="your email"
+                            <Form.Control id="email" type='email' placeholder="your email" required
                             // value={formData.email}
                             value={inputValue} onChange={handleChange}
                             // onChange={(val)=>{setFormData({...formData,email: val.target.value})}}

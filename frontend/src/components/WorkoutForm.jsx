@@ -19,6 +19,17 @@ function WorkoutForm() {
   const [emptyFields , setEmptyFields] = useState([])
   const [description,setDescription] = useState('');
 
+  const getCurrentDate = () =>{
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const day = String(currentDate.getDate()).padStart(2, '0');
+  
+    const formattedDate = `${year}-${month}-${day}`;
+    return formattedDate
+  }
+  
+
   const notify = () => toast.success('Activity added successfully!', {
     position: "bottom-left",
     autoClose: 2500,
@@ -103,7 +114,7 @@ function WorkoutForm() {
         <input id='duration' type="text" onChange={(val)=>setDuration(val.target.value) } value={duration}  className={emptyFields.includes('duration') ? 'error': ''}
         />
          <label htmlFor="date">Date</label>
-        <input id='date' type="date" onChange={(val)=>setDate(val.target.value) } value={date} className={emptyFields.includes('date') ? 'error': ''}
+        <input id='date' type="date" min={getCurrentDate()} onChange={(val)=>setDate(val.target.value) } value={date} className={emptyFields.includes('date') ? 'error': ''}
         />
         <Button onClick={ handleSubmit} className='nav-btn mt-2'>Add</Button>
         {error && <div className='error'>{error}</div>}

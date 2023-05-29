@@ -10,11 +10,11 @@ import { IconContext } from "react-icons"
 import Button from 'react-bootstrap/Button';
 import useSignUp from '../hooks/useSignUp';
 import {Link} from 'react-router-dom';
-import {  toast } from 'react-toastify';
+
 
 function Signup() {
     
-    const {signup,error,isLoading} = useSignUp();
+    const {signup,error,isLoading, setError} = useSignUp();
 
     const [ formData , setFormData ] = useState({
         fname:'',
@@ -23,30 +23,18 @@ function Signup() {
         password:'',
         phone:''
     })
-    const notify = () => toast.success('Activity added successfully!', {
-        position: "bottom-left",
-        autoClose: 2500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        });
-
-    const [inputValue, setInputValue] = useState('');
-
+    
 
     // Handle the onChnage state of first name
     const handleChangeFname = (e) => {
       const { value } = e.target;
   
       // Check if the input value contains spaces
-        const hasSpaces = /\s/.test(value);
+        // const hasSpaces = /\s/.test(value);
         const hasNumbers = /\d/.test(value);
   
       // If spaces are found, prevent updating the input state
-      if (hasSpaces || hasNumbers) {
+      if (hasNumbers) {
         return;
       }
   
@@ -54,18 +42,18 @@ function Signup() {
       setFormData({...formData,fname:value})
       
     };
-    console.log(formData);
+    // console.log(formData);
 
     // Handle the onChnage state of last name
     const handleChangeLname = (e) => {
         const { value } = e.target;
     
         // Check if the input value contains spaces
-          const hasSpaces = /\s/.test(value);
+        //   const hasSpaces = /\s/.test(value);
           const hasNumbers = /\d/.test(value);
     
         // If spaces are found, prevent updating the input state
-        if (hasSpaces || hasNumbers) {
+        if (hasNumbers) {
           return;
         }
     
@@ -112,6 +100,15 @@ function Signup() {
     
     const handleSubmit = async(e) =>{
         e.preventDefault()
+        if(formData.fname.trim() === "" ){
+            setError('first name can not be empty!')
+            return
+          }
+  
+          if(formData.lname.trim() === "" ){
+            setError('last name can not be empty!')
+            return
+          }
         console.log(formData);
 
         await signup(formData.email,formData.password,formData.fname,formData.lname,formData.phone)
@@ -135,7 +132,7 @@ function Signup() {
                     <Form.Group as={Col} htmlFor="fname"  >
                         <Form.Label>First Name</Form.Label>
                         <InputGroup>
-                            <Form.Control id="fname" type="text" placeholder="your first name"
+                            <Form.Control id="fname" type="text" placeholder="your first name" minLength="2" maxLength="20"
                             value={formData.fname}
                              onChange={handleChangeFname}
                             // onChange={(val)=>{setFormData({...formData,fname: val.target.value})}}
@@ -146,7 +143,7 @@ function Signup() {
                     <Form.Group as={Col} >
                         <Form.Label htmlFor="lname">Last Name</Form.Label>
                         <InputGroup>
-                            <Form.Control id="lname" type="text" placeholder="your last name" 
+                            <Form.Control id="lname" type="text" placeholder="your last name" minLength="2" maxLength="20"
                             value={formData.lname}
                             onChange={handleChangeLname}
                             // onChange={(val)=>{setFormData({...formData,lname: val.target.value})}}

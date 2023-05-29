@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useAuthContext } from '../hooks/useAuthContext';
+import {  toast } from 'react-toastify';
 
 import { useWorkoutsContext } from '../hooks/useWorkoutsContext';
 import '../index.css'
@@ -24,12 +25,86 @@ const {user} = useAuthContext();
   const [error,setError] = useState(null)
   const [emptyFields , setEmptyFields] = useState([])
   
+  const getCurrentDate = () =>{
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const day = String(currentDate.getDate()).padStart(2, '0');
   
+    const formattedDate = `${year}-${month}-${day}`;
+    return formattedDate
+  }
+
+  const notify = () => toast.success(' Record updated successfully!', {
+    position: "top-center",
+    autoClose: 2500,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    });
+  // Handle the onChnage state of  name
+  const handleChangeName = (e) => {
+    const { value } = e.target;
+
+    // Check if the input value contains spaces
+      
+      const hasNumbers = /\d/.test(value);
+
+    // If spaces are found, prevent updating the input state
+    if ( hasNumbers) {
+      return;
+    }
+
+    // Update the input state if no spaces are found
+    setName(value)
+    
+  };
+  
+   // Handle the onChnage state of  description
+   const handleChangeDescription = (e) => {
+    const { value } = e.target;
+
+    setDescription(value)
+    
+  };
+
+  // Handle the onChnage state of  name
+  const handleChangeDuration = (e) => {
+    const { value } = e.target;
+
+    // Check if the input value contains spaces
+      const hasSpaces = /^\d{0,3}$/.test(value);
+      // const hasNumbers = /\d/.test(value);
+
+    // If spaces are found, prevent updating the input state
+    if (hasSpaces && value !== '0') {
+      setDuration(value )
+     
+    }
+    // return;
+
+    // Update the input state if no spaces are found
+    // setDuration(value)
+    
+  };
 
   const handleSubmit = async () =>{
     const updatedWorkout = { name:name1,description:description1,type:type1,duration:duration1,date:date1}
       console.log(workout._id);
       console.log('new record',updatedWorkout);
+
+      if(name1.trim() === "" ){
+        setError('input field can not be empty!')
+        return
+      }
+
+      if(description1.trim() === "" ){
+        setError('input field can not be empty!')
+        return
+      }
         try {
         const response = await fetch(`http://localhost:4000/api/workout/${workout._id}`,{
         method:'PUT',
@@ -41,15 +116,17 @@ const {user} = useAuthContext();
          
        })
     
-       
+       notify();   
     const json = await response.json();
     console.log('data added successfully from backend',json);
     if(response.ok){
+     
         dispatch({
             type:'UPDATE_WORKOUT',
             payload: json
         })
         handleClose()
+        
     }
         } catch (error) {
             console.log(error);
@@ -69,10 +146,10 @@ const {user} = useAuthContext();
           <form className='workout-form mx-auto' >
         {/* <h5>Update Activity</h5> */}
         <label htmlFor="name">Name</label>
-        <input id='name' type="text" onChange={(val)=>setName(val.target.value) } value={name1} className={emptyFields.includes('name') ? 'error': ''}
+        <input id='name' type="text" onChange={ handleChangeName } value={name1} className={emptyFields.includes('name') ? 'error': ''} required maxLength="20"
         />
         <label htmlFor="Description">Description</label>
-        <input id='Description' type="text" onChange={(val)=>setDescription(val.target.value) } value={description1} className={emptyFields.includes('description') ? 'error': ''}
+        <input id='Description' type="text" onChange={handleChangeDescription } value={description1} className={emptyFields.includes('description') ? 'error': ''} maxLength="40"
         />
         <label htmlFor="type">Select Exercise Type:</label>
         
@@ -86,10 +163,10 @@ const {user} = useAuthContext();
       </select>
       
       <label htmlFor="duration">Duration</label>
-        <input id='duration' type="text" onChange={(val)=>setDuration(val.target.value) } value={duration1}  className={emptyFields.includes('duration') ? 'error': ''}
+        <input id='duration' type="number" onChange={handleChangeDuration } value={duration1}  className={emptyFields.includes('duration') ? 'error': ''}
         />
          <label htmlFor="date">Date</label>
-        <input id='date' type="date" onChange={(val)=>setDate(val.target.value) } value={date1} className={emptyFields.includes('date') ? 'error': ''}
+        <input id='date' type="date"  min={getCurrentDate()} onChange={(val)=>setDate(val.target.value) } value={date1} className={emptyFields.includes('date') ? 'error': ''}
         />
         {/* <Button onClick={ handleSubmit} className='nav-btn mt-2'>Add</Button> */}
         {error && <div className='error'>{error}</div>}

@@ -31,7 +31,7 @@ function WorkoutForm() {
   
 
   const notify = () => toast.success('Activity added successfully!', {
-    position: "bottom-left",
+    position: "top-center",
     autoClose: 2500,
     hideProgressBar: false,
     closeOnClick: true,
@@ -40,9 +40,65 @@ function WorkoutForm() {
     progress: undefined,
     theme: "light",
     });
+
+  // Handle the onChnage state of  name
+  const handleChangeName = (e) => {
+    const { value } = e.target;
+
+    // Check if the input value contains spaces
+      
+      const hasNumbers = /\d/.test(value);
+
+    // If spaces are found, prevent updating the input state
+    if ( hasNumbers) {
+      return;
+    }
+
+    // Update the input state if no spaces are found
+    setName(value)
+    
+  };
+  
+   // Handle the onChnage state of  description
+   const handleChangeDescription = (e) => {
+    const { value } = e.target;
+
+    setDescription(value)
+    
+  };
+
+  // Handle the onChnage state of  name
+  const handleChangeDuration = (e) => {
+    const { value } = e.target;
+
+    // Check if the input value contains spaces
+      const hasSpaces = /^\d{0,3}$/.test(value);
+      // const hasNumbers = /\d/.test(value);
+
+    // If spaces are found, prevent updating the input state
+    if (hasSpaces && value !== '0') {
+      setDuration(value )
+     
+    }
+    // return;
+
+    // Update the input state if no spaces are found
+    // setDuration(value)
+    
+  };
   
     const handleSubmit = async (e) =>{
         e.preventDefault()
+
+        if(name.trim() === "" ){
+          setError('input field can not be empty!')
+          return
+        }
+
+        if(description.trim() === "" ){
+          setError('input field can not be empty!')
+          return
+        }
 
         if(!user){
           setError('You must be logged in')
@@ -94,10 +150,10 @@ function WorkoutForm() {
     <form className='workout-form hide-form'>
         <h5>Add New Activity:</h5>
         <label htmlFor="name">Name</label>
-        <input id='name' type="text" onChange={(val)=>setName(val.target.value) } value={name} className={emptyFields.includes('name') ? 'error': ''} required="required"
+        <input id='name' type="text" onChange={ handleChangeName } value={name} className={emptyFields.includes('name') ? 'error': ''} required maxLength="20"
         />
         <label htmlFor="Description">Description</label>
-        <input id='Description' type="text" onChange={(val)=>setDescription(val.target.value) } value={description} className={emptyFields.includes('description') ? 'error': ''}
+        <input id='Description' type="text" onChange={handleChangeDescription } value={description} className={emptyFields.includes('description') ? 'error': ''} maxLength="40"
         />
         <label htmlFor="type">Select Exercise Type:</label>
         
@@ -111,7 +167,7 @@ function WorkoutForm() {
       </select>
       
       <label htmlFor="duration">Duration</label>
-        <input id='duration' type="text" onChange={(val)=>setDuration(val.target.value) } value={duration}  className={emptyFields.includes('duration') ? 'error': ''}
+        <input id='duration' type="number" placeholder='in minutes' onChange={handleChangeDuration} value={duration}  className={emptyFields.includes('duration') ? 'error': ''}
         />
          <label htmlFor="date">Date</label>
         <input id='date' type="date" min={getCurrentDate()} onChange={(val)=>setDate(val.target.value) } value={date} className={emptyFields.includes('date') ? 'error': ''}

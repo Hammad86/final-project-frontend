@@ -7,7 +7,7 @@ export const useLogout = () => {
   const {dispatch: workoutDispatch} = useWorkoutsContext();
 
   const notify = () => toast.success(' Logout successfully!', {
-    position: "bottom-left",
+    position: "top-center",
     autoClose: 2500,
     hideProgressBar: false,
     closeOnClick: true,

@@ -8,7 +8,7 @@ export const useLogin = () => {
   const { dispatch } = useAuthContext()
 
   const notify = () => toast.success(' Login successfully!', {
-    position: "bottom-left",
+    position: "top-center",
     autoClose: 2500,
     hideProgressBar: false,
     closeOnClick: true,

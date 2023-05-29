@@ -13,7 +13,7 @@ a{
   
 }
 body{
-  background-color: #f1f1f1 !important;
+  background-color: #f3f4f6 !important;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -73,7 +73,7 @@ p > span, h1 > span{
   background-color: #e7195a;
 }
 .workout-form{
-  position: fixed;
+  /* position: fixed; */
   max-width: min-content;
   display: flex;
   flex-direction: column;
@@ -121,6 +121,14 @@ input.error{
 
 .error-page img{
   width: 40vw !important;
+}
+
+.no-data {
+  width: 50vw !important;
+}
+
+.no-data img{
+ margin-top: -20px !important;
 }
 /* Small devices (landscape phones, less than 768px) */
 @media (max-width: 767.98px) { 

@@ -10,7 +10,7 @@ function useSignUp() {
     const [isLoading, setIsLoading] = useState(null);
 
     const notify = () => toast.success(' Login successfully!', {
-      position: "bottom-left",
+      position: "top-center",
       autoClose: 2500,
       hideProgressBar: false,
       closeOnClick: true,
@@ -48,7 +48,7 @@ function useSignUp() {
         }
       }
   
-    return { signup, isLoading, error }
+    return { signup, isLoading, error ,setError}
 }
 
 export default useSignUp

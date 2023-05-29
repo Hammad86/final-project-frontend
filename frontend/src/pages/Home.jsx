@@ -9,6 +9,7 @@ import WorkoutForm from '../components/WorkoutForm';
 import { useWorkoutsContext } from '../hooks/useWorkoutsContext';
 import { useAuthContext } from '../hooks/useAuthContext';
 import Navbar1 from '../components/Navbar';
+import NoData from '../components/NoData';
 
 
 function Home() {
@@ -45,11 +46,13 @@ function Home() {
           <Col lg={9} md={8}>
           <Navbar1/>
             <Row className="justify-content-md-center">
+              
               {workouts.map((workout) =>
                 <Col md="auto" key={workout._id }>
                   <Card workout={workout} />
                 </Col>
               )}
+              {workouts.length < 1 && <NoData/>}
             </Row>
           </Col>
           <Col lg={3} md={4}>

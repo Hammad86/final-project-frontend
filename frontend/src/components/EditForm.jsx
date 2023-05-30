@@ -105,6 +105,10 @@ const {user} = useAuthContext();
         setError('input field can not be empty!')
         return
       }
+      if(!date1){
+        setError('Date is empty!')
+        return
+      }
         try {
         const response = await fetch(`http://localhost:4000/api/workout/${workout._id}`,{
         method:'PUT',

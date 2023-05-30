@@ -67,7 +67,7 @@ function WorkoutForm() {
     
   };
 
-  // Handle the onChnage state of  name
+  // Handle the onChnage state of  duration
   const handleChangeDuration = (e) => {
     const { value } = e.target;
 
